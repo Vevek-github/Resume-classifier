@@ -15,7 +15,7 @@ from extract_content import extract_files_to_csv
 import re
 import string
 import matplotlib.pyplot as plt
-from wordcloud import WordCloud
+#from wordcloud import WordCloud
 from nltk.corpus import stopwords
 from nltk import word_tokenize
 import seaborn as sns
@@ -24,7 +24,7 @@ from scipy.stats import skew, kurtosis
 from sklearn.feature_extraction.text import TfidfVectorizer
 import pandas as pd
 import warnings
-import spacy
+#import spacy
 from nltk.tokenize import sent_tokenize, word_tokenize
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
 from nltk.stem import WordNetLemmatizer
@@ -40,10 +40,10 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import f1_score, confusion_matrix, accuracy_score, classification_report
 from sklearn.svm import SVC
 from sklearn.naive_bayes import GaussianNB
-from textblob import TextBlob
-from textblob.sentiments import NaiveBayesAnalyzer
-from textblob.np_extractors import ConllExtractor
-from sklearn.pipeline import make_pipeline
+#from textblob import TextBlob
+#from textblob.sentiments import NaiveBayesAnalyzer
+#from textblob.np_extractors import ConllExtractor
+#from sklearn.pipeline import make_pipeline
 from nltk.tokenize import RegexpTokenizer
 
 # Suppress warnings

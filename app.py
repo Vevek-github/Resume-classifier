@@ -8,7 +8,7 @@ import testing_model
 
 
 with st.sidebar:
-    st.image(r"C:\Users\vevek\OneDrive\Desktop\Python\Tele-com churn\social-network-connection-avatar-icon-vector.jpg")
+    st.image(r"images\social-network-connection-avatar-icon-vector.jpg")
     st.title("Resume Classifier")
     st.info("This is an awesome web app , helps to segment the Resumes .")
 

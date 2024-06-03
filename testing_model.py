@@ -4,11 +4,7 @@ nltk.download('punkt')
 nltk.download('wordnet')
 nltk.download('omw-1.4')
 nltk.download('stopwords')
-nltk.download('vader_lexicon')
-nltk.download('averaged_perceptron_tagger')
-nltk.download('movie_reviews')
-nltk.download('conll2000')
-nltk.download('brown')
+
 
 # Import libraries
 from extract_content import extract_files_to_csv

@@ -12,10 +12,10 @@ import testing_model
 
 
 st.title("Resume Classifier")
-folder_path= st.text_input("Folder Directory")
-predict_button = st.button("Predict the Churn")
+files_list= st.file_uploader("Upload your files in .DOC , .DOCX , .PDF format",accept_multiple_files=True)
+predict_button = st.button("Classify the Resume")
 if predict_button: 
-    df=testing_model.resume_classifier(folder_path)
+    df=testing_model.resume_classifier(files_list)
     st.write(df)
 
         

@@ -7,7 +7,7 @@ nltk.download('stopwords')
 
 
 # Import libraries
-from extract_content import extract_files_to_csv
+from extract_content import extract_from_files
 import re
 import string
 import matplotlib.pyplot as plt
@@ -49,17 +49,16 @@ warnings.filterwarnings("ignore", category=DeprecationWarning)
 stop_words = set(stopwords.words('english'))
 
 
-def resume_classifier(folder_path : str)->pd.DataFrame :
+def resume_classifier(files_list : list)->pd.DataFrame :
 
-    # Define the directory containing the test files
-    test_directory = folder_path
-    output_csv_path = r"Resume content\test_resume.csv"
-    from extract_content import extract_files_to_csv
+    
+    #output_csv_path = r"Resume content\test_resume.csv"
+    from extract_content import extract_from_files
     # Call the function to process the test directory and save to CSV
-    extract_files_to_csv(test_directory, output_csv_path)
+    df =extract_from_files(files_list)
 
     #test_file_path  = r"C:\Users\vevek\OneDrive\Desktop\Python\Resume classifier\Testing Resumes"
-    df = pd.read_csv(r"Resume content\test_resume.csv")
+    #df = pd.read_csv(r"Resume content\test_resume.csv")
 
 
     print(df)
@@ -108,15 +107,20 @@ def resume_classifier(folder_path : str)->pd.DataFrame :
 
     requiredText = df['Absolute_clean_resume'].values
 
+    import requests
+    from io import BytesIO
     import joblib
-
-    loaded_vectorizer = joblib.load(r"Model\tfidf_vectorizer.joblib")
+    
+    vectorizer_response  =  requests.get("https://github.com/Vevek-github/Resume-classifier/raw/7b58fc114f07d0a053b13420a5dea836fa94c5df/Model/tfidf_vectorizer.joblib?raw=true")
+    loaded_vectorizer = joblib.load(BytesIO(vectorizer_response.content))
     WordFeatures = loaded_vectorizer.transform(requiredText)
 
     #print(WordFeatures)
 
-    loaded_LG = joblib.load(r"Model\weighted_logistic.joblib")
+    lG_response = requests.get("https://github.com/Vevek-github/Resume-classifier/raw/7b58fc114f07d0a053b13420a5dea836fa94c5df/Model/weighted_logistic.joblib?raw=true")
+    loaded_LG = joblib.load(BytesIO(lG_response.content))
     prediction = loaded_LG.predict(WordFeatures)
     print(prediction)
     df["Prediction"] = prediction
+    print(df)
     return df

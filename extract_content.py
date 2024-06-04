@@ -2,56 +2,61 @@ import os
 import pandas as pd
 from PyPDF2 import PdfReader
 from docx import Document
-from spire.doc import Document as doct
+from spire.doc import Document as SpireDoc
 from spire.doc.common import *
+import tempfile
 
 
-def extract_text_from_pdf(file_path):
+def extract_text_from_pdf(file):
     text = ""
-    with open(file_path, 'rb') as file:
-        pdf_reader = PdfReader(file)
-        for page in pdf_reader.pages:
-            text += page.extract_text()
+    pdf_reader = PdfReader(file)
+    for page in pdf_reader.pages:
+        text += page.extract_text()
     return text
 
-def extract_text_from_doc(file_path):
-    # Create a Document object
-    document = doct()
-    # Load the.doc file
-    document.LoadFromFile(file_path)
-    # Extract the text of the document
-    document_text = document.GetText()
-    # Close the document
-    document.Close()
-    return document_text
+def extract_text_from_doc(file):
+    # Save the uploaded DOC file to a temporary file
+    with tempfile.NamedTemporaryFile(delete=False, suffix=".doc") as temp_file:
+        temp_file.write(file.read())
+        temp_file_path = temp_file.name
 
-def extract_text_from_docx(file_path):
-    doc = Document(file_path)
+    doci = SpireDoc()
+    
+    # Load the.doc file
+    doci.LoadFromFile(temp_file_path)
+    # Extract the text of the document
+    document_text = doci.GetText()
+    # Close the document
+    doci.Close()
+
+    return document_text[70:]
+
+def extract_text_from_docx(file):
+    doc = Document(file)
     text = "\n".join([para.text for para in doc.paragraphs])
     return text
 
-def extract_text(file_path):
-    if file_path.endswith('.pdf'):
-        return extract_text_from_pdf(file_path)
-    elif file_path.endswith('.doc'):
-        return extract_text_from_doc(file_path)
-    elif file_path.endswith('.docx'):
-        return extract_text_from_docx(file_path)
+def extract_text(file):
+    if file.name.endswith('.pdf'):
+        return extract_text_from_pdf(file)
+    elif file.name.endswith('.doc'):
+        return extract_text_from_doc(file)
+    elif file.name.endswith('.docx'):
+        return extract_text_from_docx(file)
     else:
         return ""
 
-def extract_files_to_csv(directory, output_csv_path):
+def extract_from_files(files_list):
     data = []
-    for root, _, files in os.walk(directory):
-        for file in files:
-            file_path = os.path.join(root, file)
-            print(f'Processing {file_path}')
-            text = extract_text(file_path)
-            data.append({"Resumes": text})
+    for file in files_list:
+        print(f'Processing {file.name}')
+        text = extract_text(file)
+        data.append({"Resumes": text})
     df = pd.DataFrame(data)
-    df.to_csv(output_csv_path, index=False)
+    #df.to_csv("https://github.com/Vevek-github/Resume-classifier/raw/7b58fc114f07d0a053b13420a5dea836fa94c5df/Resume%20content/test_resume.csv, index=False")
     #print(f"Data extracted and saved to {output_csv_path}")
+    return df 
 
 # Example usage
 if __name__ == "__main__":
-    extract_files_to_csv('path/to/your/doc/files', 'output.csv')
+    pass

@@ -16,6 +16,7 @@ files_list= st.file_uploader("Upload your files in .DOC , .DOCX , .PDF format",a
 predict_button = st.button("Classify the Resume")
 if predict_button: 
     df=testing_model.resume_classifier(files_list)
+    st.write(df["Resumes","Prediction"])
     st.write(df)
 
         

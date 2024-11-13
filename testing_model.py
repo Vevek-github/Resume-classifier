@@ -1,6 +1,6 @@
 # Ensure necessary NLTK data packages are downloaded
 import nltk
-nltk.download('punkt')
+#nltk.download('punkt')
 nltk.download('wordnet')
 nltk.download('omw-1.4')
 nltk.download('stopwords')

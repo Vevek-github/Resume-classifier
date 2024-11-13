@@ -5,6 +5,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 import testing_model 
 
+import nltk
+nltk.download('punkt')
 
 
 
